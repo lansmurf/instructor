@@ -388,9 +388,10 @@ The output must be a valid JSON object that `{response_model.__name__}.model_val
 
             # minimize gemini safety related errors - model is highly prone to false alarms
             new_kwargs["safety_settings"] = new_kwargs.get("safety_settings", {}) | {
-                HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-                HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+                'HATE_SPEECH': 'block_none',
+                'HARASSMENT': 'block_none',
+                'DANGEROUS_CONTENT': 'block_none',
+                'SEXUALLY_EXPLICIT': 'block_none',
             }
             # gemini has a different prompt format and params from other providers
             new_kwargs["contents"] = transform_to_gemini_prompt(new_kwargs["messages"])

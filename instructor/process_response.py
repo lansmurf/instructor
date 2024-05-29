@@ -11,6 +11,7 @@ from instructor.function_calls import OpenAISchema, openai_schema
 from instructor.utils import merge_consecutive_messages
 from openai.types.chat import ChatCompletion
 from pydantic import BaseModel
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 import json
 import inspect
@@ -388,10 +389,10 @@ The output must be a valid JSON object that `{response_model.__name__}.model_val
 
             # minimize gemini safety related errors - model is highly prone to false alarms
             new_kwargs["safety_settings"] = new_kwargs.get("safety_settings", {}) | {
-                'HARM_CATEGORY_SEXUALLY_EXPLICIT': 'block_none',
-                'HARM_CATEGORY_HATE_SPEECH': 'block_none',
-                'HARM_CATEGORY_DANGEROUS_CONTENT': 'block_none',
-                'HARM_CATEGORY_SEXUALLY_EXPLICIT': 'block_none',
+                HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
             }
             # gemini has a different prompt format and params from other providers
             new_kwargs["contents"] = transform_to_gemini_prompt(new_kwargs["messages"])

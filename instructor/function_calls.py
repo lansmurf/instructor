@@ -173,7 +173,7 @@ class OpenAISchema(BaseModel):
             text = completion.text
         except ValueError:
             print(
-                f"Error response: {completion._result.candidates[0].finish_reason}\n\n{completion_result.candidates[0].safety_ratings}"
+                f"Error response: {completion.prompt_feedback}\n\n{completion.candidates[0].finish_reason}\n\n{response.candidates[0].safety_ratings}"
             )
 
         extra_text = extract_json_from_codeblock(text)

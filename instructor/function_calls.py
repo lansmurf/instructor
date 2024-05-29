@@ -172,7 +172,7 @@ class OpenAISchema(BaseModel):
         try:
             text = completion.text
         except ValueError:
-            logger.debug(
+            print(
                 f"Error response: {completion._result.candidates[0].finish_reason}\n\n{completion_result.candidates[0].safety_ratings}"
             )
 
